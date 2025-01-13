@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../styles/style.css" />
+        <link rel="stylesheet" href="../styles/account-choice.css" />
+    </head>
+
+    <body>
+    <div class="logo_container"><img class="logo" src="../icons/logo_text.svg"></div>
+    <div class="login_title" id="loginTitle">Rejestracja</div>
+    <div class="content">
+        <div>Wybierz rodzaj profilu</div>
+
+        <div class="container">
+            <div class="radio">
+                <input id="user" name="profile_type" type="radio" value="user">
+                <label for="user" class="radio-label">Profil użytkownika</label>
+            </div>
+
+            <div class="radio">
+                <input id="shelter" name="profile_type" type="radio" value="shelter">
+                <label  for="shelter" class="radio-label">Profil schroniska</label>
+            </div>
+
+        </div>
+
+    </div>
+    
+    <div class="btn_position">
+        <button class="login-button" onclick="goToNextPage()">Przejdź dalej</button>
+    </div>
+    <script src="../javascript/choice.js"></script>
+    </body>
+</html>

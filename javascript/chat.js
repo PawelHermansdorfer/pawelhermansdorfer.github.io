@@ -1,0 +1,114 @@
+
+// Pobranie elementu
+const navLogo = document.getElementById('navAnchor');
+const favAnchor = document.getElementById('favAnchor');
+const svgContainer = document.getElementById("favOrPets");
+const favLabel = document.getElementById("favLabel");
+const shelterName = document.getElementById("shelterName");
+
+const receivedMessage = document.getElementById("messRec");
+const sentMessage = document.getElementById("messSent");
+const profilePic = document.getElementById("ProfilePic");
+
+// Sprawdzenie typu konta
+const profileType = localStorage.getItem('profileType');
+
+// Różne wersje SVG jako ciągi znaków
+const userSVG = `
+<svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+                    <g transform="matrix(1,0,0,1,-2592,0)">
+                        <g id="favourites" transform="matrix(1,0,0,1,2592,0)">
+                            <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
+                            <g transform="matrix(8.68141,0,0,8.68141,-27353.5,-69901.5)">
+                                <path d="M3213.01,8169.12L3204.31,8161.32C3194.21,8152.22 3185.86,8144.37 3179.26,8137.77C3172.65,8131.17 3167.4,8125.24 3163.5,8119.99C3159.6,8114.74 3156.88,8109.91 3155.33,8105.51C3153.78,8101.11 3153,8096.61 3153,8092.01C3153,8082.61 3156.15,8074.75 3162.45,8068.45C3168.75,8062.15 3176.61,8059 3186.01,8059C3191.21,8059 3196.16,8060.1 3200.86,8062.3C3205.56,8064.5 3209.61,8067.6 3213.01,8071.6C3216.41,8067.6 3220.47,8064.5 3225.17,8062.3C3229.87,8060.1 3234.82,8059 3240.02,8059C3249.42,8059 3257.27,8062.15 3263.57,8068.45C3269.88,8074.75 3273.03,8082.61 3273.03,8092.01C3273.03,8096.61 3272.25,8101.11 3270.7,8105.51C3269.15,8109.91 3266.43,8114.74 3262.52,8119.99C3258.62,8125.24 3253.37,8131.17 3246.77,8137.77C3240.17,8144.37 3231.82,8152.22 3221.72,8161.32L3213.01,8169.12ZM3213.01,8152.92C3222.62,8144.32 3230.52,8136.94 3236.72,8130.79C3242.92,8124.64 3247.82,8119.29 3251.42,8114.74C3255.02,8110.19 3257.52,8106.14 3258.92,8102.58C3260.32,8099.03 3261.02,8095.51 3261.02,8092.01C3261.02,8086.01 3259.02,8081 3255.02,8077C3251.02,8073 3246.02,8071 3240.02,8071C3235.32,8071 3230.97,8072.33 3226.97,8074.98C3222.97,8077.63 3220.22,8081 3218.71,8085.11L3207.31,8085.11C3205.81,8081 3203.06,8077.63 3199.06,8074.98C3195.06,8072.33 3190.71,8071 3186.01,8071C3180.01,8071 3175,8073 3171,8077C3167,8081 3165,8086.01 3165,8092.01C3165,8095.51 3165.7,8099.03 3167.1,8102.58C3168.5,8106.14 3171,8110.19 3174.6,8114.74C3178.21,8119.29 3183.11,8124.64 3189.31,8130.79C3195.51,8136.94 3203.41,8144.32 3213.01,8152.92Z" style="fill:currentColor;fill-rule:nonzero;"/>
+                            </g>
+                        </g>
+                    </g>
+                </svg>`;
+const shelterSVG = `
+ <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+                    <g transform="matrix(1,0,0,1,-1326,0)">
+                        <g id="paw" transform="matrix(1,0,0,1,1326,0)">
+                            <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
+                            <g transform="matrix(13.001,0,0,13.001,-33405.7,-94099.7)">
+                                <path d="M2582.25,7277.48C2579.57,7277.48 2577.3,7276.55 2575.45,7274.7C2573.59,7272.85 2572.67,7270.58 2572.67,7267.9C2572.67,7265.21 2573.59,7262.94 2575.45,7261.09C2577.3,7259.24 2579.57,7258.31 2582.25,7258.31C2584.93,7258.31 2587.2,7259.24 2589.05,7261.09C2590.91,7262.94 2591.83,7265.21 2591.83,7267.9C2591.83,7270.58 2590.91,7272.85 2589.05,7274.7C2587.2,7276.55 2584.93,7277.48 2582.25,7277.48ZM2599.5,7262.15C2596.82,7262.15 2594.55,7261.22 2592.7,7259.37C2590.84,7257.51 2589.92,7255.25 2589.92,7252.56C2589.92,7249.88 2590.84,7247.61 2592.7,7245.76C2594.55,7243.91 2596.82,7242.98 2599.5,7242.98C2602.18,7242.98 2604.45,7243.91 2606.3,7245.76C2608.16,7247.61 2609.08,7249.88 2609.08,7252.56C2609.08,7255.25 2608.16,7257.51 2606.3,7259.37C2604.45,7261.22 2602.18,7262.15 2599.5,7262.15ZM2622.5,7262.15C2619.82,7262.15 2617.55,7261.22 2615.7,7259.37C2613.84,7257.51 2612.92,7255.25 2612.92,7252.56C2612.92,7249.88 2613.84,7247.61 2615.7,7245.76C2617.55,7243.91 2619.82,7242.98 2622.5,7242.98C2625.18,7242.98 2627.45,7243.91 2629.3,7245.76C2631.16,7247.61 2632.08,7249.88 2632.08,7252.56C2632.08,7255.25 2631.16,7257.51 2629.3,7259.37C2627.45,7261.22 2625.18,7262.15 2622.5,7262.15ZM2639.75,7277.48C2637.07,7277.48 2634.8,7276.55 2632.95,7274.7C2631.09,7272.85 2630.17,7270.58 2630.17,7267.9C2630.17,7265.21 2631.09,7262.94 2632.95,7261.09C2634.8,7259.24 2637.07,7258.31 2639.75,7258.31C2642.43,7258.31 2644.7,7259.24 2646.55,7261.09C2648.41,7262.94 2649.33,7265.21 2649.33,7267.9C2649.33,7270.58 2648.41,7272.85 2646.55,7274.7C2644.7,7276.55 2642.43,7277.48 2639.75,7277.48ZM2590.49,7315.81C2587.62,7315.81 2585.2,7314.71 2583.26,7312.51C2581.31,7310.3 2580.33,7307.7 2580.33,7304.7C2580.33,7301.37 2581.47,7298.47 2583.74,7295.97C2586,7293.48 2588.26,7291.02 2590.49,7288.6C2592.34,7286.62 2593.94,7284.46 2595.28,7282.13C2596.62,7279.79 2598.22,7277.61 2600.07,7275.56C2601.48,7273.9 2603.11,7272.53 2604.96,7271.44C2606.82,7270.36 2608.83,7269.81 2611,7269.81C2613.17,7269.81 2615.18,7270.32 2617.04,7271.35C2618.89,7272.37 2620.52,7273.71 2621.92,7275.37C2623.71,7277.42 2625.3,7279.62 2626.67,7281.98C2628.04,7284.35 2629.66,7286.55 2631.51,7288.6C2633.74,7291.02 2636,7293.48 2638.26,7295.97C2640.53,7298.47 2641.67,7301.37 2641.67,7304.7C2641.67,7307.7 2640.69,7310.3 2638.74,7312.51C2636.8,7314.71 2634.38,7315.81 2631.51,7315.81C2628.06,7315.81 2624.64,7315.52 2621.25,7314.95C2617.87,7314.37 2614.45,7314.09 2611,7314.09C2607.55,7314.09 2604.13,7314.37 2600.75,7314.95C2597.36,7315.52 2593.94,7315.81 2590.49,7315.81Z" style="fill:currentColor;fill-rule:nonzero;"/>
+                            </g>
+                        </g>
+                    </g>
+                </svg>`;
+
+if (profileType === 'user') {
+    navLogo.href = 'dashboard-user.html'; // Ustawienie linku dla użytkownika
+
+    favAnchor.href = 'favorites.html';
+    svgContainer.innerHTML = userSVG; // Podmiana SVG dla użytkownika
+    favLabel.innerText = 'Ulubione';
+
+    // Zmiana kontentu rozmowy
+    shelterName.innerText = 'Nazwa schroniska';
+    profilePic.src = "../images/shelter1.jpg";
+
+    receivedMessage.className = "message sent";
+    receivedMessage.className = "message received";
+
+    sentMessage.className = "message received";
+    sentMessage.className = "message sent";
+
+} else if (profileType === 'shelter') {
+    navLogo.href = 'dashboard-shelter.html'; // Ustawienie linku dla schroniska
+
+    favAnchor.href = 'pets.html';
+    svgContainer.innerHTML = shelterSVG; // Podmiana SVG dla schroniska
+    favLabel.innerText = 'Zwierzaki';
+
+    // Zmiana kontentu rozmowy
+    shelterName.innerText = 'Nazwa użytkownika';
+    profilePic.src = "../images/client1.jpg";
+
+    receivedMessage.className = "message received";
+    receivedMessage.className = "message sent";
+
+    sentMessage.className = "message sent";
+    sentMessage.className = "message received";
+}               
+
+// Wyświetlanie dodanych wiadomości
+document.getElementById('send-message').addEventListener('click', sendMessage);
+document.getElementById('message-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Zapobiega domyślnemu działaniu (np. nowa linia w polu tekstowym)
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    // Pobierz tekst z inputa
+    const messageText = document.getElementById('message-input').value;
+    
+    // Sprawdź, czy tekst nie jest pusty
+    if (messageText.trim() !== '') {
+        // Stwórz nowy element wiadomości
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'sent');
+        
+        // Dodaj do elementu wiadomości tekst
+        const messageContent = document.createElement('p');
+        messageContent.textContent = messageText;
+        messageElement.appendChild(messageContent);
+        
+        // Dodaj czas wysłania wiadomości
+        const messageTime = document.createElement('span');
+        messageTime.classList.add('message-time');
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+        const minutes = String(currentTime.getMinutes()).padStart(2, '0'); // Dodaj zero, jeśli minuty są mniejsze niż 10
+        messageTime.textContent = `${hours}:${minutes}`;
+        messageElement.appendChild(messageTime);
+        
+        // Dodaj wiadomość do sekcji wiadomości
+        document.querySelector('.messages').appendChild(messageElement);
+        
+        // Wyczyść input po wysłaniu
+        document.getElementById('message-input').value = '';
+    }
+}

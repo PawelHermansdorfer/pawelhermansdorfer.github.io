@@ -1,0 +1,135 @@
+.screen {
+    text-align: center;
+    align-items: center;
+    font-family: Inter-Regular, sans-serif;
+    align-content: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 475px;
+    height: auto;
+}
+
+.logo_container {
+    margin-top: 44px;
+    margin-left: 60px;
+}
+
+.login_title {
+    font-family: Alata-Regular, sans-serif;
+    font-size: 96px;
+}
+
+.subtitle {
+    font-size: 48px;
+    color: #56335e;
+    text-align: left;
+    margin: 0 auto;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.form-bar {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.form {
+    background-color: #FFFFFF;
+    border: 2px solid #56335e; /* Fioletowe obramowanie */
+    color: #000000;
+    border-radius: 25px; /* Zaokrąglone rogi */
+    padding: 10px 20px;
+    margin: 0px;
+    font-size: 18px; /* Większy rozmiar tekstu */
+    width: 450px; /* Stała szerokość pól */
+    height: 50px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form:focus {
+    border-color: #d4a9de; /* Zmiana koloru obramowania przy focus */
+    outline: none; /* Usunięcie domyślnego focusa */
+}
+
+
+.add_instruction{
+    font-size: 24px;
+    width: 450px;
+    text-align: left;
+}
+
+.instr_position{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:40px;
+    margin-top:20px;
+}
+.rectangle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 450px;
+    width: 450px;
+    background-color: #F4E7F8;
+    margin: 0 auto;
+    margin-top: 20px;
+
+    border-radius: 25px;
+}
+
+
+.add {
+    height: 300px;
+    width: 300px;
+}
+
+.add_button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 200px;
+    width: auto;
+}
+
+
+.add-icon {
+    color: #d4a9de;
+
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.add-icon:hover {
+    color: #56335e;
+    transform: scale(1.05);
+}
+
+/* Przycisk logowania */
+.login-button {
+    background-color: #d4a9de;
+    border: none;
+    color: #F8F8F8;
+    padding: 15px 32px;
+    font-size: 32px;
+    border-radius: 35px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 15%;
+    cursor: pointer; /* Rączka przy najechaniu */
+    transition: background-color 0.3s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: #56335e; /* Ciemniejszy fiolet na hover */
+}

@@ -1,0 +1,46 @@
+/* HEADER SETTINGS */
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #D4A9DE;
+    border: none;
+    top: 0;
+    z-index: 1000;  /* Ensure it stays above other content */
+}
+
+.header .nav {
+    display: flex;
+    gap: 20px;
+}
+  
+.header .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+
+    text-decoration: none; /* Usuwanie podkreślenia z linków */
+    color: #F8F8F8; /* Kolor tekstu */
+    transition: color 0.3s ease, transform 0.3s ease; /* Efekt na hover */
+}
+
+.header .nav-item:hover {
+    color: #56335E; /* Kolor tekstu po najechaniu */
+    transform: scale(1.1); /* Powiększenie ikony przy najechaniu */
+}
+
+.header .icon {
+    width: 40px; /* Szerokość ikony */
+    height: 40px; /* Wysokość ikony */
+}
+
+.header .logo-icon {
+    width: 200px; /* Szerokość ikony */
+    height: auto;
+}
+
+.header .label {
+    font-size: 16px;
+}

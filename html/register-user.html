@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/login-register.css" />
+</head>
+
+<body>
+    <div class="logo_container"><img class="logo" src="../icons/logo_text.svg"></div>
+    <div class="screen">
+
+        <div class="login_title">Rejestracja</div>
+        <div class="subtitle">Profil użytkownika</div>
+        <form class="form-bar" id="registerForm" onsubmit="handleRegister(event)">
+            <div class="form-bar">
+                <label for="shelter_name"></label>
+                <input type="text" class="form" id="shelter_name" placeholder="Imię">
+            </div>
+            <div class="form-bar">
+                <label for="city"></label>
+                <input type="text" class="form" id="city" placeholder="Nazwisko">
+            </div>
+            <div class="form-bar">
+                <label for="email"></label>
+                <input type="text" class="form" id="email" placeholder="Adres e-mail">
+            </div>
+            <div class="form-bar">
+                <label for="password"></label>
+                <input type="password" class="form" id="password" placeholder="Hasło">
+            </div>
+            <div class="form-bar">
+                <label for="repeat_password"></label>
+                <input type="password" class="form" id="repeat_password" placeholder="Powtórz hasło">
+            </div>
+        </form>
+        <a href="dashboard-shelter.html">
+            <button type="submit" class="login-button">
+                Zarejestruj się
+            </button>
+        </a>
+    </div>
+    <script src="../javascript/choice.js"></script>
+    <script src="../javascript/register.js"></script>
+</body>
+</html>
