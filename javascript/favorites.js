@@ -28,41 +28,20 @@ function favoritesGrid() {
         return;
     }
 
+
     favourites.forEach(pet => {
         const imgElement = document.createElement('img');
         imgElement.src = `../images/pets/${pet[0]}`;
         imgElement.alt = 'Pet image';
         imgElement.classList.add('image-item');
+        imgElement.addEventListener('click', () => {
+            document.getElementById('fv_popupText-petName').innerText = pet[1];;
+            document.getElementById('fv_popupText-petDesc').innerText = pet[2];;
+            document.getElementById('fv_popupText-PetImage').src = `../images/pets/${pet[0]}`;;
+        });
 
         imageGrid.appendChild(imgElement);
     });
-
-    // const images = [
-    //     'pets/cat1.jpg',
-    //     'pets/cat2.jpg',
-    //     'pets/cat3.jpg',
-    //     'pets/dog1.jpg',
-    //     'pets/dog2.jpg',
-    //     'pets/dog3.jpg',
-    //     'pets/dog4.jpg',
-    //     'pets/dog5.jpg',
-    //     'pets/dog6.jpg',  
-    // ];
-
-    // const imageGrid = document.getElementById('imageGrid');
-    // if (!imageGrid) {
-    //     console.log("No imageGrid found.");
-    //     return; // Exit if imageGrid is not found
-    // }
-
-    // images.forEach(imagePath => {
-    //     const imgElement = document.createElement('img');
-    //     imgElement.src = `../images/${imagePath}`;
-    //     imgElement.alt = 'Random pet image';
-    //     imgElement.classList.add('image-item');
-
-    //     imageGrid.appendChild(imgElement);
-    // });
 }
 
 favoritesGrid();

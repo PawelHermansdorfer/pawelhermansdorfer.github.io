@@ -6,6 +6,8 @@ const navLogo = document.getElementById('navAnchor');
 const favAnchor = document.getElementById('favAnchor');
 const svgContainer = document.getElementById("favOrPets");
 const favLabel = document.getElementById("favLabel");
+const footerHelp =  document.getElementById("footer-help");
+const footerAbout = document.getElementById("footer-about");
 
 // Sprawdzenie typu konta
 const profType = localStorage.getItem('profileType');
@@ -40,12 +42,17 @@ if (profType === 'user') {
     favAnchor.href = 'favorites.html';
     svgContainer.innerHTML = userSVG; // Podmiana SVG dla użytkownika
     favLabel.innerText = 'Ulubione';
+    footerAbout.href = "AboutUs.html";
+
 } else if (profType === 'shelter') {
     navLogo.href = 'dashboard-shelter.html'; // Ustawienie linku dla schroniska
 
     favAnchor.href = 'pets.html';
     svgContainer.innerHTML = shelterSVG; // Podmiana SVG dla schroniska
     favLabel.innerText = 'Zwierzaki';
+    footerHelp.style.display = 'none';
+    footerAbout.href = "AboutUsShelter.html";
+
 } else {
     navLogo.href = 'index.html'; // Domyślny link, jeśli nie spełnia warunku
 }

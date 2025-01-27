@@ -9,6 +9,8 @@ const shelterName = document.getElementById("shelterName");
 const receivedMessage = document.getElementById("messRec");
 const sentMessage = document.getElementById("messSent");
 const profilePic = document.getElementById("ProfilePic");
+const footerHelp =  document.getElementById("footer-help");
+const footerAbout = document.getElementById("footer-about");
 
 // Sprawdzenie typu konta
 const profileType = localStorage.getItem('profileType');
@@ -53,6 +55,8 @@ if (profileType === 'user') {
 
     sentMessage.className = "message received";
     sentMessage.className = "message sent";
+    
+    footerAbout.href = "AboutUs.html";
 
 } else if (profileType === 'shelter') {
     navLogo.href = 'dashboard-shelter.html'; // Ustawienie linku dla schroniska
@@ -70,6 +74,9 @@ if (profileType === 'user') {
 
     sentMessage.className = "message sent";
     sentMessage.className = "message received";
+
+    footerHelp.style.display = 'none';
+    footerAbout.href = "AboutUsShelter.html";
 }               
 
 // Wyświetlanie dodanych wiadomości

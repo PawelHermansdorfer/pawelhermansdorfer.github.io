@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url('../fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Alata-Regular';
+    src: url('../fonts/Alata-Regular.ttf') format('truetype');
+}
+
+/* Klasy globalne */
+.welcome_text {
+    font-family: Alata-Regular, sans-serif;
+    font-size: 48px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Inter-Regular, sans-serif;
+    font-size: 32px;
+    text-align: left;
+    padding-right: 160px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.screen {
+    text-align: center;
+    align-items: center;
+    font-family: Inter-Regular, sans-serif;
+    justify-content: center;
+}
+
+.subtitle {
+    font-size: 48px;
+    color: #56335e;
+    text-align: left;
+    margin: 0 auto;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.logo {
+    width: 475px;
+    height: auto;
+}
+
+.logo_container {
+    margin-top: 44px;
+    margin-left: 60px;
+    margin-bottom: 44px;
+}
+
+.login_title {
+    font-family: Alata-Regular, sans-serif;
+    font-size: 96px;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-bar {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.form {
+    background-color: #FFFFFF;
+    border: 2px solid #56335e;
+    color: #000000;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 18px;
+    width: 450px;
+    height: 60px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form:focus {
+    border-color: #d4a9de;
+    outline: none;
+}
+
+.btn_position {
+    justify-content: center;
+    text-align: center;
+}
+
+.login-button {
+    background-color: #d4a9de;
+    border: none;
+    color: #F8F8F8;
+    padding: 15px 32px;
+    font-size: 32px;
+    border-radius: 35px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 15%;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: #56335e;
+}
+
+/* Radio button */
+.radio {
+    margin: 0.8rem;
+}
+.radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+.radio input[type="radio"] + .radio-label:before {
+    content: '';
+    background: white;
+    border-radius: 100%;
+    border: 5px solid #d4a9de;
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    position: relative;
+    top: -0.2em;
+    margin-right: 0.5em;
+    cursor: pointer;
+    transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+    background-color: #d4a9de;
+    box-shadow: inset 0 0 0 4px #ffffff;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+    outline: none;
+    border-color: #d4a9de;
+}
+
+/* Inne elementy */
+.rectangle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 450px;
+    width: 450px;
+    background-color: #F4E7F8;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.add {
+    height: 300px;
+    width: 300px;
+}
+
+.add_button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease, stroke 0.3s ease;
+}
+
+.circle {
+    fill: #d4a9de;
+}
+
+.add_button:hover .circle {
+    fill: #56335e;
+}
+
+/* Strzałka i nagłówek */
+.header-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Kontener nagłówka */
+.header-container {
+    position: relative; /* Umożliwia pozycjonowanie absolutne strzałki */
+    display: flex;
+    justify-content: center; /* Wyśrodkowuje nagłówek */
+    align-items: center; /* Wyśrodkowuje pionowo nagłówek i strzałkę */
+    margin-top: 20px;
+    margin-right: 110px;
+}
+
+/* Nagłówek */
+.header-title {
+    font-size: 96px;
+    font-family: Alata-Regular, sans-serif;
+    margin: 0; /* Usuń dodatkowe marginesy domyślne */
+    text-align: center; /* Wyśrodkowanie tekstu */
+}
+
+/* Strzałka */
+.arrow {
+    width: 64px; /* Wielkość strzałki */
+    height: 64px;
+    margin-right: 40px; /* Odstęp 20px między strzałką a nagłówkiem */
+    cursor: pointer;
+    background: none;
+    color: #BDBDBD;
+}

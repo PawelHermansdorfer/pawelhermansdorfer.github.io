@@ -100,7 +100,16 @@
     transform: scale(1.1);
     color: #56335E;
 }
+
 .onImageButton .add2Fav:hover {
     transform: scale(1.1);
     color: #56335E;
+}
+
+.onImageButton .add2Fav:active {
+    color: #D4A9DE;
+}
+
+.onImageButton .add2Fav.clicked {
+    color: #D4A9DE;
 }

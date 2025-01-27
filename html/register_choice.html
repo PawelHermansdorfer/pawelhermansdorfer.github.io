@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/style.css"/>
+    <link rel="stylesheet" href="../styles/login-register-style.css" />
+</head>
+
+<body>
+<div class="logo_container"><img class="logo" src="../icons/logo_text.svg"></div>
+<div class="header-container">
+    <button onclick="goBack()" class="arrow">
+        <svg class="back" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+                    <g transform="matrix(1,0,0,1,0,-1238)">
+                        <g id="back" transform="matrix(1,0,0,1,0,1238)">
+                            <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
+                            <g transform="matrix(1.25503e-16,-1.76028,2.17211,1.47361e-16,-2770.68,1053.63)">
+                                <path d="M291.788,1304.12L508.142,1744.24L75.435,1744.24L291.788,1304.12Z" style="fill:currentColor;"/>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+    </button>
+    <div class="login_title">Rejestracja</div>
+</div>
+
+<div class="content">
+    <div>Wybierz rodzaj profilu</div>
+
+    <div class="container">
+        <div class="radio">
+            <input id="user" name="profile_type" type="radio" value="register_user.html" checked>
+            <label for="user" class="radio-label">Profil użytkownika</label>
+        </div>
+
+        <div class="radio">
+            <input id="shelter" name="profile_type" type="radio" value="register_shelter.html">
+            <label  for="shelter" class="radio-label">Profil schroniska</label>
+        </div>
+
+    </div>
+
+</div>
+<div class="btn_position"><button class="login-button">Przejdź dalej</button></div>
+<script src="../javascript/choice.js"></script>
+<script src="../javascript/script.js"></script>
+</body>
+</html>

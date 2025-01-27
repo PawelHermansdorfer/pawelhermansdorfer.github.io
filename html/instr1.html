@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="../styles/style.css"/>
     <link rel="stylesheet" href="../styles/header.css"/>
     <link rel="stylesheet" href="../styles/footer.css"/>
-    <link rel="stylesheet" href="../styles/favorites.css"/>
-  </head>
-  <body>
-    <header class="header">
-        <div class="logo">
-            <a href="dashboard-user.html" id="navAnchor">
-                <img src="../icons/logo_text.svg" alt="Logo" class="logo-icon">
-            </a>
-        </div>
-        <nav class="nav">
-            <a href="../html/chats.html" class="nav-item">
-                <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <link rel="stylesheet" href="../styles/dashboard-client.css"/>
+</head>
+<body>
+<header class="header">
+    <div class="logo">
+        <a href="dashboard-user.html">
+            <img src="../icons/logo_text.svg" alt="Logo" class="logo-icon">
+        </a>
+    </div>
+    <nav class="nav">
+        <a href="../html/chats.html" class="nav-item">
+            <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
                     <rect id="chat" x="0" y="0" width="1080" height="1080" style="fill:none;"/>
-                    <g id="chat1" serif:id="chat">
+                <g id="chat1" serif:id="chat">
                         <g transform="matrix(9.22808,0,0,9.22808,-25930.7,-74327.4)">
                             <path d="M2813.08,8167.17L2813.08,8069.67C2813.08,8066.69 2814.17,8064.14 2816.34,8062.02C2818.51,8059.89 2821.12,8058.83 2824.17,8058.83L2912.83,8058.83C2915.88,8058.83 2918.49,8059.89 2920.66,8062.02C2922.83,8064.14 2923.92,8066.69 2923.92,8069.67L2923.92,8134.67C2923.92,8137.65 2922.83,8140.2 2920.66,8142.32C2918.49,8144.44 2915.88,8145.5 2912.83,8145.5L2835.25,8145.5L2813.08,8167.17ZM2830.54,8134.67L2912.83,8134.67L2912.83,8069.67L2824.17,8069.67L2824.17,8140.76L2830.54,8134.67Z" style="fill:currentColor;fill-rule:nonzero;"/>
                         </g>
                     </g>
                 </svg>
-                <span class="label">Czat</span>
-            </a>
-            <a href="../html/favorites.html" class="nav-item">
-                <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <span class="label">Czat</span>
+        </a>
+        <a href="../html/favorites.html" class="nav-item">
+            <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
                     <g transform="matrix(1,0,0,1,-2592,0)">
                         <g id="favourites" transform="matrix(1,0,0,1,2592,0)">
                             <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
@@ -37,10 +37,10 @@
                         </g>
                     </g>
                 </svg>
-                <span class="label">Ulubione</span>
-            </a>
-            <a href="../html/settings.html" class="nav-item" id="settNav">
-                <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <span class="label">Ulubione</span>
+        </a>
+        <a href="../html/settings.html" class="nav-item">
+            <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
                     <g transform="matrix(1,0,0,1,-1316,0)">
                         <g id="settings" transform="matrix(1,0,0,1,1316,0)">
                             <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
@@ -50,10 +50,10 @@
                         </g>
                     </g>
                 </svg>
-                <span class="label">Ustawienia</span>
-            </a>
-            <a href="../html/profile.html" class="nav-item">
-                <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+            <span class="label">Ustawienia</span>
+        </a>
+        <a href="../html/profile-client.html" class="nav-item">
+            <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
                     <g transform="matrix(1,0,0,1,-3816,0)">
                         <g id="profile" transform="matrix(1,0,0,1,3816,0)">
                             <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
@@ -63,84 +63,30 @@
                         </g>
                     </g>
                 </svg>
-                <span class="label">Profil</span>
-            </a>
-        </nav>
-    </header>
+            <span class="label">Profil</span>
+        </a>
+    </nav>
+</header>
 
-    <div class="Container">
-        <div class="bar">
-            <button onclick="goBack()">
-                <svg class="back" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-                    <g transform="matrix(1,0,0,1,0,-1238)">
-                        <g id="back" transform="matrix(1,0,0,1,0,1238)">
-                            <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
-                            <g transform="matrix(1.25503e-16,-1.76028,2.17211,1.47361e-16,-2770.68,1053.63)">
-                                <path d="M291.788,1304.12L508.142,1744.24L75.435,1744.24L291.788,1304.12Z" style="fill:currentColor;"/>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
-            </button>
+<div class="instr_position" style="margin-bottom: 50px">
+    <img src="../images/instr1.png" alt="instruction" class="instr">
+    <a href="dashboard-user.html"><button class="close-btn">X</button></a>
+    <a href="instr2.html"><button class="next-btn">Dalej</button></a>
 
-            <svg class="icon" width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-                <g transform="matrix(1,0,0,1,-6443,-1150)">
-                    <g id="heart-filled" transform="matrix(1,0,0,1,6443,1150)">
-                        <rect x="0" y="0" width="1080" height="1080" style="fill:none;"/>
-                        <g transform="matrix(8.68141,0,0,8.68141,-27353.5,-69901.5)">
-                            <path d="M3213.01,8169.12L3204.31,8161.32C3194.21,8152.22 3185.86,8144.37 3179.26,8137.77C3172.65,8131.17 3167.4,8125.24 3163.5,8119.99C3159.6,8114.74 3156.88,8109.91 3155.33,8105.51C3153.78,8101.11 3153,8096.61 3153,8092.01C3153,8082.61 3156.15,8074.75 3162.45,8068.45C3168.75,8062.15 3176.61,8059 3186.01,8059C3191.21,8059 3196.16,8060.1 3200.86,8062.3C3205.56,8064.5 3209.61,8067.6 3213.01,8071.6C3216.41,8067.6 3220.47,8064.5 3225.17,8062.3C3229.87,8060.1 3234.82,8059 3240.02,8059C3249.42,8059 3257.27,8062.15 3263.57,8068.45C3269.88,8074.75 3273.03,8082.61 3273.03,8092.01C3273.03,8096.61 3272.25,8101.11 3270.7,8105.51C3269.15,8109.91 3266.43,8114.74 3262.52,8119.99C3258.62,8125.24 3253.37,8131.17 3246.77,8137.77C3240.17,8144.37 3231.82,8152.22 3221.72,8161.32L3213.01,8169.12Z" style="fill:currentColor;fill-rule:nonzero;"/>
-                        </g>
-                    </g>
-                </g>
-            </svg>
+</div>
 
-            <h1 class="container-header">Ulubione</h1>
-        </div>
-        
-        <div class="image-grid" id="imageGrid">
-            <!-- Tutaj wkejane są obrazki polubionych zwierzakow -->
-        </div>
-
-        <div class="Popup" id="popupWindow">
-            <div class="clickedPet">
-                <img id='fv_popupText-PetImage' src="../images/pets/cat1.jpg" alt="Pet">
-            </div>
-            <div class="popupText">
-                <h1 id='fv_popupText-petName'>Puszek</h1>
-                <p id='fv_popupText-petDesc'>Puszek jako dzieciątko trafił do schroniska wraz z dziką mamą oraz z nieoswojonym rodzeństwem.Przebywa w domu tymczasowym, w którym mieszkają nastoletnie dzieci, a  także 4 koty i pies. Puszek żyje z nimi w pełnej zgodzie i komitywie, ale  chyba najbardziej zaprzyjaźniona jest z Panią Dorotą, której towarzyszy  kiedy siada przed komputerem.</p>
-                
-                <!-- Wysyla wiadomosc na czacie i prowadzi do strony czatu -->
-                <button onclick="" class="btn">
-                    <a href="../html/chat.html">
-                        Napisz do schroniska
-                    </a>
-                </button>
-            </div>
-            <button onclick="closePopup()" class="close">
-                <svg width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-                    <rect id="exit" x="0" y="0" width="1080" height="1080" style="fill:none;"/>
-                    <g id="exit1" serif:id="exit">
-                        <g transform="matrix(24.4626,0,0,24.4626,-38636.8,-164986)">
-                            <path d="M1585.87,6786.04L1581.96,6782.13L1597.59,6766.5L1581.96,6750.87L1585.87,6746.96L1601.5,6762.59L1617.13,6746.96L1621.04,6750.87L1605.41,6766.5L1621.04,6782.13L1617.13,6786.04L1601.5,6770.41L1585.87,6786.04Z" style="fill:currentColor;fill-rule:nonzero;"/>
-                        </g>
-                    </g>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-     <footer class="footer">
-        <div class="footer-content">
-          <p class="footer-logo">Pawsitive</p>
-          <nav class="footer-nav">
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-logo">Pawsitive</p>
+        <nav class="footer-nav">
             <a href="AboutUs.html" class="footer-link">O nas</a>
             <a href="instr1.html" class="footer-link">Pomoc</a>
-          </nav>
-        </div>
-        <p class="footer-copy">© 2024 Pawsitive. Wszystkie prawa zastrzeżone.</p>
-    </footer>
-    
-    <script src="../javascript/script.js"></script> 
-    <script src="../javascript/favorites.js"></script>
-  </body>
+        </nav>
+    </div>
+    <p class="footer-copy">© 2024 Pawsitive. Wszystkie prawa zastrzeżone.</p>
+</footer>
+
+<script src="../javascript/script.js"></script>
+<script src="../javascript/dashboard-user.js"></script>
+</body>
 </html>

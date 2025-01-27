@@ -33,6 +33,45 @@ body{
     flex-wrap: wrap; /* Pozwala na zawijanie elementów, jeśli nie ma wystarczająco miejsca */
 }
 
+.instr{
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+
+}
+.instr_position{
+    position: relative;
+    display: inline-block;
+    margin-left:25%;
+    margin-right:25%;
+    margin-top: 50px;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 35px; /* Odstęp od góry */
+    right: 35px; /* Odstęp od prawej */
+    color: #56335E;
+    border: none;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+    color: #ffffff;
+    text-shadow: #7D7D7D;
+    background: none
+}
+
+
 img {
     width: 500px;
     height: auto;
@@ -78,6 +117,79 @@ a {
 .btn a {
     color: inherit; /* dziedziczy kolor z .btn */
     text-decoration: none; /* usuwa podkreślenie */
+}
+.next-btn {
+    position: absolute;
+    bottom: 35px;
+    right: 35px;
+    color: #f8f8f8;
+    background-color: #D4A9DE;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 25px;
+    margin: 10px;
+    font-size: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: #56335E;
+    color: #f8f8f8;
+}
+
+
+.prev-btn {
+    position: absolute;
+    bottom: 35px;
+    right: 180px;
+    color: #56335E;
+    background-color: #f8f8f8;
+    border-color: #56335E;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 30px;
+    padding: 6px 21px;
+    margin: 10px;
+    font-size: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.prev-btn:hover {
+    background-color: #56335E;
+    color: #f8f8f8;
+}
+
+.prev-btn2 {
+    position: absolute;
+    bottom: 35px;
+    right: 250px;
+    color: #56335E;
+    background-color: #f8f8f8;
+    border-color: #56335E;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 30px;
+    padding: 6px 21px;
+    margin: 10px;
+    font-size: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.prev-btn2:hover {
+    background-color: #56335E;
+    color: #f8f8f8;
 }
 
 /* POPUP SETTINGS */
