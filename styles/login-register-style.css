@@ -213,4 +213,9 @@
     cursor: pointer;
     background: none;
     color: #BDBDBD;
+    transition: all 0.3s ease;
+}
+
+.arrow:hover {
+    transform: scale(1.1);
 }
