@@ -496,7 +496,8 @@
                 let bounds = [[min_x, min_y], [max_x, max_y]];
                 map.fitBounds(bounds, {
                     padding: 70,
-                    duration: 1000
+                    duration: 1000,
+                    maxZoom: max_zoom * 0.8,
                 });
             }
         }
