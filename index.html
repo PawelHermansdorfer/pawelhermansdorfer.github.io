@@ -1,21 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/index.css" />
+<meta charset="UTF-8">
+<title>MapViewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    #map {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #dropdown-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        border: 3px dashed #aaa;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 9999;
+    }
+
+    #dropdown-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+</style>
 </head>
-
 <body>
-    <div class="screen">
-        <div class="welcome_text">Witamy w</div>
-        <div class="logo_container"><img class="logo" src="icons/logo_text.svg"></div>
+<div id="map"></div>
+<div id='dropdown-overlay'>Drag & Drop file here</div>
 
-        <a href="html/account-choice.html?action=login"><button type="submit" class="login-button">Zaloguj się</button></a>
-        
-        <div class="or_text">lub</div>
+<script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.1/dist/tweakpane.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-        <a href="html/account-choice.html?action=register"><button type="submit" class="login-button">Zarejestruj się</button></a>
-    </div>
+<script>
+    let questionmark_icon = "❓";
+    let buildin_icon = "🏚️";
+    let village_icon = "🏘️";
+    let river_icon = "🏞️";
+    let forest_icon = "🌲";
+    let field_icon = "🌾";
+    let meadow_icon = "🌿";
+    let mountain_icon = "🗻";
+    let hill_icon = "🏔️";
+    let valley_icon = "🛤️";
+
+    let icons = [
+        questionmark_icon,
+        buildin_icon,
+        village_icon,
+        "🏡",
+        "🏰",
+        "⛪",
+        river_icon,
+        "🏞️",
+        forest_icon,
+        "🌳",
+        field_icon,
+        "🌱",
+        meadow_icon,
+        mountain_icon,
+        hill_icon,
+        valley_icon,
+    ];
+    function default_icon_from_category(category)
+    {
+        let icon = questionmark_icon;
+        switch(category)
+        {
+            case 'budynek': icon = buildin_icon; break;
+
+            case 'część wsi':
+            case 'wieś': icon = village_icon; break;
+
+            case 'rzeka':
+            case 'potok': icon = river_icon; break;
+
+            case 'las':
+            case 'część lasu': icon = forest_icon; break;
+
+            case 'pole':
+            case 'pola': icon = field_icon; break; 
+
+            case 'łąki': icon = meadow_icon; break;
+
+            case 'góra':
+            case 'góra, szczyt': icon = mountain_icon; break;
+
+            case 'kopiec':
+            case 'masyw':
+            case 'skała': icon = hill_icon; break;
+
+            case 'dolina':
+            case 'przełęcz':
+            case 'jar': icon = valley_icon; break;
+        }
+        return icon;
+    }
+
+    let init_zoom = 6;
+    let min_zoom = 0;
+    let max_zoom = 17;
+
+    let icon_size = 18;
+    let min_icon_size = 1;
+    let_max_icon_size = 48;
+
+    let map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://tiles.openfreemap.org/styles/bright',
+        center: [19.145, 52.069],
+
+        zoom: init_zoom,
+        maxZoom: max_zoom,
+        minZoom: min_zoom,
+        antialias: true,
+        attributionControl: false,
+        hash: false, // save zoom and position in url
+    });
+
+    ////////////////////////////////////////
+    // --- Drag & Drop Dropdown ---
+    const dropdown_overlay = document.getElementById('dropdown-overlay');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropdown_overlay.addEventListener(eventName, (e) => e.preventDefault());
+        document.body.addEventListener(eventName, (e) => e.preventDefault());
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        document.body.addEventListener(eventName, () => dropdown_overlay.classList.add('active'));
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropdown_overlay.addEventListener(eventName, () => dropdown_overlay.classList.remove('active'));
+    });
+
+    document.body.addEventListener('drop', (e_) => {
+        const file = e_.dataTransfer.files[0];
+        let file_name = file.name;
+        const reader = new FileReader();
+
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+
+            const column_names = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
+            const rows = XLSX.utils.sheet_to_json(worksheet);
+
+            make_read_excel_panel(file_name, column_names, rows);
+        };
+    });
+
+    ////////////////////////////////////////
+    function make_read_excel_panel(title, column_names, rows)
+    {
+        let overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        overlay.style.zIndex = '999';
+        document.body.appendChild(overlay);
+
+        let possible_date_column_idx = 0;
+        let possible_category_column_idx = 0;
+        for (let i = 0; i < column_names.length; i++) {
+            if(column_names[i].startsWith('data'))
+            {
+               possible_date_column_idx = i;
+            }
+            if(column_names[i].startsWith('rodzaj'))
+            {
+               possible_category_column_idx = i;
+            }
+        }
+
+        let params = {
+            date_column: column_names[possible_date_column_idx],
+            category_column: column_names[possible_category_column_idx],
+        };
+        let date_column_idx = possible_date_column_idx;
+        let category_column_idx = possible_category_column_idx;
+
+        // label - value for combo box
+        let options = {};
+        column_names.forEach(name => {
+            options[name] = name;
+        });
+
+        let pane = new Tweakpane.Pane({ title: title});
+        pane.addInput(params, 'date_column', { options, label: 'Date column' })
+            .on('change', (ev) => {
+                date_column_idx = ev.value;
+            });
+
+        pane.addInput(params, 'category_column', { options, label: 'Category column' })
+            .on('change', (ev) => {
+                category_column_idx = ev.value;
+            });
+
+        // Load file button
+        pane.addButton({ title: 'Load file', })
+            .on('click', () => {
+                overlay.remove();
+                pane.dispose();
+                load_map_data(column_names[date_column_idx], column_names[category_column_idx], column_names, rows);
+        });
+
+        pane.element.style.width = '400px';
+        pane.element.style.position = 'fixed';
+        pane.element.style.top = '50%';
+        pane.element.style.left = '50%';
+        pane.element.style.transform = 'translate(-50%, -50%)';
+        pane.element.style.zIndex = '1000';
+    }
+
+    ////////////////////////////////////////
+    function update_markers(places, category_is_active, date_is_active)
+    {
+        places.forEach(place => {
+            if(category_is_active[place.category] && date_is_active[place.date])
+            {
+                place.marker.addTo(map);
+            }
+            else
+            {
+                place.marker.remove();
+            }
+        });
+    }
+
+    function load_map_data(date_column, category_column, columns, rows)
+    {
+        let first_row = rows[0];
+        let first_pos = first_row['współrzędne geograficzne'];
+        let first_pos_split = first_pos.split(',');
+        let first_x = parseFloat(first_pos_split[1].trim());
+        let first_y = parseFloat(first_pos_split[0].trim());
+        let min_x = first_x;
+        let max_x = first_x;
+        let min_y = first_y;
+        let max_y = first_y;
+
+        let categories = []
+        let dates = []
+        let places = []
+
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            let pos = row['współrzędne geograficzne'];
+            let pos_split = pos.split(',');
+            let x = parseFloat(pos_split[1].trim());
+            let y = parseFloat(pos_split[0].trim());
+            let category = row[category_column];
+            if(category == undefined) category = 'undefined';
+
+            let date;
+            if(typeof row[date_column] === "number")
+            {
+                date = row[date_column];
+            }
+            else
+            {
+              date = parseInt(row[date_column].slice(0, 4));
+            } 
+
+            min_x = Math.min(min_x, x);
+            max_x = Math.max(max_x, x);
+
+            min_y = Math.min(min_y, y);
+            max_y = Math.max(max_y, y);
+
+            let desc = '';
+            columns.forEach(column_name => {
+                desc += '<b>' + column_name + '</b>' + ': ' + row[column_name] + '<br>'
+            });
+
+            const treeMarker = document.createElement('div');
+            treeMarker.textContent = default_icon_from_category(category);
+            treeMarker.style.fontSize = icon_size.toString() + 'px';
+
+            let marker = new maplibregl.Marker({element: treeMarker})
+                .setLngLat([x, y])
+                .setPopup(new maplibregl.Popup().setHTML(desc))
+                .addTo(map);
+
+            const marker_element = marker.getElement();
+
+            let place = {
+                marker: marker,
+                marker_element: marker_element,
+                date: date,
+                category: category,
+                row: row,
+            }
+            places.push(place);
+
+            if(!categories.includes(category))
+            {
+                categories.push(category)
+            }
+
+            if(!dates.includes(date))
+            {
+                dates.push(date);
+            }
+        }
+        dates.sort();
+
+        // Setup
+        let category_is_active = {}
+        categories.forEach(category => {category_is_active[category] = true});
+
+        let date_is_active = {};
+        dates.forEach(date => { date_is_active[date] = true; });
+
+        update_markers(places, category_is_active, date_is_active);
+
+        let bounds = [[min_x, min_y], [max_x, max_y]];
+        map.fitBounds(bounds, {
+            padding: 70,
+            duration: 1000
+        });
+
+        let pane = new Tweakpane.Pane({ title: 'Settings'});
+        pane.element.style.width = '300px';
+        pane.element.style.position = 'fixed';
+        pane.element.style.top = '10px';
+        pane.element.style.right = '10px';
+        pane.element.style.zIndex = '1000';
+
+        const tabs = pane.addTab({
+          pages: [
+            {title: 'General'},
+            {title: 'Show'},
+            {title: 'Icons'},
+          ],
+        });
+
+        ////////////////////////////////////////
+        // General
+        const description_folder = tabs.pages[0].addFolder({
+            title: 'Description columns',
+            expanded: true,
+        });
+
+        let description_columns_params = { };
+        columns.forEach(column_name => {
+            description_columns_params[column_name] = true;
+            let checkbox = description_folder.addInput(description_columns_params, column_name);
+            checkbox.on('change', (ev) => {
+                places.forEach(place => {
+                    let desc = '';
+                    columns.forEach(column_name => {
+                        if(description_columns_params[column_name])
+                        {
+                            desc += '<b>' + column_name + '</b>' + ': ' + place.row[column_name] + '<br>'
+                        }
+                    });
+                    place.marker.setPopup(new maplibregl.Popup().setHTML(desc))
+                });
+            });
+        });
+
+        ////////////////////////////////////////
+        // Dates
+        const dates_folder = tabs.pages[0].addFolder({
+            title: 'Dates',
+            expanded: true,
+        });
+
+        const date_slider_params = {
+            show_all_dates: true,
+            date_idx: 0,
+        };
+        let date_slider;
+
+        let checkbox_all_dates = dates_folder.addInput(date_slider_params, 'show_all_dates', {label: 'Show all dates'});
+        checkbox_all_dates.on('change', (ev) => {
+            date_slider.disabled = ev.value;
+            if(ev.value)
+            {
+                dates.forEach(date => { date_is_active[date] = true; });
+                update_markers(places, category_is_active, date_is_active);
+            }
+            else
+            {
+                dates.forEach(date => { date_is_active[date] = false; });
+                date_is_active[dates[date_slider_params.date_idx]] = true;
+                update_markers(places, category_is_active, date_is_active);
+            }
+        });
+
+        date_slider = dates_folder.addInput(date_slider_params, 'date_idx', {
+            min: 0,
+            max: dates.length - 1,
+            step: 1,
+            label: 'Display year',
+            format: (v) => `${dates[v]}`,
+            disabled: true,
+        })
+
+        date_slider.on('change', (ev) => {
+            dates.forEach(date => { date_is_active[date] = false; });
+            date_is_active[dates[ev.value]] = true;
+            update_markers(places, category_is_active, date_is_active);
+        });
+
+        ////////////////////////////////////////
+        // Center
+        let button_center = tabs.pages[0].addButton({
+          title: 'Center',
+        });
+        button_center.on('click', () => {
+            map.fitBounds(bounds, {
+                padding: 70,
+                duration: 1000
+            });
+        });
+
+
+        ////////////////////////////////////////
+        // Show settings
+        let show_params = { };
+        let icons_params = { };
+
+        let redraw_markers = true;
+
+        let icons_options = Object.fromEntries(icons.map(item => [item, item]));
+        categories.forEach(category => {
+            let checkbox = tabs.pages[1].addInput(category_is_active, category);
+            checkbox.on('change', (ev) => {
+                if(redraw_markers)
+                {
+                    update_markers(places, category_is_active, date_is_active);
+                }
+            });
+
+            // Icons select
+            icons_params[category] = default_icon_from_category(category);
+            let icon_select = tabs.pages[2].addInput(icons_params, category, {options: icons_options});
+            icon_select.on('change', (v) => {
+                places.forEach(place => {
+                    if(place.category == category)
+                    {
+                        place.marker_element.textContent = v.value;
+                    }
+                });
+            });
+        });
+
+        let button_show_all = tabs.pages[1].addButton({
+          title: 'Show all',
+        });
+        button_show_all.on('click', () => {
+            categories.forEach(category => {category_is_active[category] = true});
+            redraw_markers = false;
+            pane.refresh();
+            update_markers(places, category_is_active, date_is_active);
+            redraw_markers = true;
+        });
+
+        let button_hide_all = tabs.pages[1].addButton({
+          title: 'Hide all',
+        });
+        button_hide_all.on('click', () => {
+            categories.forEach(category => {category_is_active[category] = false});
+            redraw_markers = false;
+            pane.refresh();
+            update_markers(places, category_is_active, date_is_active);
+            redraw_markers = true;
+        });
+
+
+        let icon_size_params = {icon_size: icon_size};
+        let icon_size_slider = tabs.pages[2].addInput(icon_size_params, 'icon_size', {
+            min: min_icon_size,
+            max: let_max_icon_size,
+            step: 1,
+            label: 'Icon size',
+        });
+        icon_size_slider.on('change', (ev) => {
+            places.forEach(place => {
+                place.marker_element.style.fontSize = ev.value.toString() + 'px';
+            });
+        });
+
+
+    }
+</script>
 </body>
 </html>
+
