@@ -178,7 +178,7 @@
             const worksheet = workbook.Sheets[sheetName];
 
             const column_names = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
-            const rows = XLSX.utils.sheet_to_json(worksheet);
+            const rows = XLSX.utils.sheet_to_json(worksheet, {raw: false, defval: "undefined"});
 
             make_read_excel_panel(file_name, column_names, rows);
         };
@@ -254,7 +254,7 @@
     function update_markers(places, category_is_active, date_is_active)
     {
         places.forEach(place => {
-            if(category_is_active[place.category] && date_is_active[place.date])
+            if(category_is_active[place.category] && date_is_active[place.date] && !place.filtered_out)
             {
                 place.marker.addTo(map);
             }
@@ -328,6 +328,9 @@
                 date: date,
                 category: category,
                 row: row,
+                x: x,
+                y: y,
+                filtered_out: false,
             }
             places.push(place);
 
@@ -440,6 +443,84 @@
             dates.forEach(date => { date_is_active[date] = false; });
             date_is_active[dates[ev.value]] = true;
             update_markers(places, category_is_active, date_is_active);
+        });
+
+        ////////////////////////////////////////
+        // Filter
+        const filter_folder = tabs.pages[0].addFolder({
+            title: 'Filter',
+            expanded: true,
+        });
+
+        let filter_params = {
+            column: columns[0],
+            case_sensitive: false,
+            phrase: '',
+        };
+
+        function filter()
+        {
+            let min_x = Infinity;
+            let max_x = -Infinity;
+            let min_y = Infinity;
+            let max_y = -Infinity;
+            let found_any = false;
+
+            places.forEach(place => {
+                let filtered_out;
+                if(filter_params.case_sensitive)
+                {
+                    filtered_out = !(place.row[filter_params.column].includes(filter_params.phrase));
+                    console.log(1);
+                }
+                else
+                {
+                    filtered_out = !(place.row[filter_params.column].toLowerCase().includes(filter_params.phrase.toLowerCase()));
+                }
+                place.filtered_out = filtered_out;
+
+                if(!filtered_out)
+                {
+                    min_x = Math.min(min_x, place.x);
+                    max_x = Math.max(max_x, place.x);
+
+                    min_y = Math.min(min_y, place.y);
+                    max_y = Math.max(max_y, place.y);
+                    found_any = true;
+                }
+            });
+            update_markers(places, category_is_active, date_is_active);
+
+            if(found_any)
+            {
+                let bounds = [[min_x, min_y], [max_x, max_y]];
+                map.fitBounds(bounds, {
+                    padding: 70,
+                    duration: 1000
+                });
+            }
+        }
+        
+
+        let column_column_map = {};
+        columns.forEach(column => {column_column_map[column] = column;});
+
+        filter_folder.addInput(filter_params, 'column', { options: column_column_map, label: 'Filter by column' })
+            .on('change', (ev) => {
+                filter();
+            });
+
+        filter_folder.addInput(filter_params, 'case_sensitive', { label: 'Case sensitive' })
+            .on('change', (ev) => {
+                filter();
+            });
+
+
+        filter_folder.addInput(filter_params, 'phrase', {
+            label: 'Filter phrase',
+            textMode: 'input',
+        }).on('change', (ev) => {
+            filter();
         });
 
         ////////////////////////////////////////
