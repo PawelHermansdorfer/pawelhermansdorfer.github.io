@@ -589,6 +589,25 @@
         });
 
 
+        tabs.pages[2].addButton({
+          title: 'Set default',
+        }).on('click', () => {
+            categories.forEach(category => {
+                icons_params[category] = default_icon_from_category(category);
+            });
+
+            places.forEach(place => {
+                    place.marker_element.textContent = default_icon_from_category(place.category);
+            });
+
+            redraw_markers = false;
+            pane.refresh();
+            update_markers(places, category_is_active, date_is_active);
+            redraw_markers = true;
+        });
+
+
+
         let icon_size_params = {icon_size: icon_size};
         let icon_size_slider = tabs.pages[2].addInput(icon_size_params, 'icon_size', {
             min: min_icon_size,
@@ -601,6 +620,7 @@
                 place.marker_element.style.fontSize = ev.value.toString() + 'px';
             });
         });
+
 
 
     }
