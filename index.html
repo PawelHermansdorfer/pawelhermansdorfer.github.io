@@ -78,9 +78,82 @@
         opacity: 1;
         pointer-events: auto;
     }
+
+
+    /* === LOGIN OVERLAY === */
+    #login-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(160deg, #1a1a1a 0%, #333 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 20000;
+        font-family: Arial, sans-serif;
+    }
+
+    #login-box {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 40px 50px;
+        text-align: center;
+        color: white;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    #login-box h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+
+    #login-box input {
+        display: block;
+        width: 250px;
+        margin: 10px auto;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    #login-box button {
+        margin-top: 15px;
+        padding: 10px 40px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: #4da6ff;
+        color: white;
+        transition: background 0.2s;
+    }
+    #login-box button:hover {
+        background-color: #1a73e8;
+    }
+
+    #login-error {
+        color: #ff6666;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+</style>
 </style>
 </head>
 <body>
+
+<div id="login-overlay">
+  <div id="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" autocomplete="off">
+    <input type="password" id="password" placeholder="Password">
+    <button id="login-button">Login</button>
+    <p id="login-error"></p>
+  </div>
+</div>
+
 <div id="map"></div>
 <div id='dropdown-overlay'>Drag & Drop file here</div>
 
@@ -94,6 +167,8 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <script>
+    let logged_in = false;
+
     let questionmark_icon = "❓";
     let buildin_icon = "🏚️";
     let village_icon = "🏘️";
@@ -189,7 +264,9 @@
     });
 
     ['dragenter', 'dragover'].forEach(eventName => {
-        document.body.addEventListener(eventName, () => dropdown_overlay.classList.add('active'));
+        document.body.addEventListener(eventName, () => {
+            if(logged_in) dropdown_overlay.classList.add('active');
+        });
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
@@ -197,24 +274,27 @@
     });
 
     document.body.addEventListener('drop', (e_) => {
-        const file = e_.dataTransfer.files[0];
-        let file_name = file.name;
-        const reader = new FileReader();
+        if(logged_in)
+        {
+            const file = e_.dataTransfer.files[0];
+            let file_name = file.name;
+            const reader = new FileReader();
 
-        reader.readAsArrayBuffer(file);
+            reader.readAsArrayBuffer(file);
 
-        reader.onload = (e) => {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: "array" });
+            reader.onload = (e) => {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
 
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
 
-            const column_names = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
-            const rows = XLSX.utils.sheet_to_json(worksheet, {raw: false, defval: "undefined"});
+                const column_names = XLSX.utils.sheet_to_json(worksheet, { header: 1 })[0];
+                const rows = XLSX.utils.sheet_to_json(worksheet, {raw: false, defval: "undefined"});
 
-            make_read_excel_panel(file_name, column_names, rows);
-        };
+                make_read_excel_panel(file_name, column_names, rows);
+            };
+        }
     });
 
     ////////////////////////////////////////
@@ -676,10 +756,31 @@
                 place.marker_element.style.fontSize = ev.value.toString() + 'px';
             });
         });
-
-
-
     }
+
+
+    // === SIMPLE LOGIN ===
+    document.getElementById("login-button").addEventListener("click", () => {
+        const user = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value.trim();
+        const error = document.getElementById("login-error");
+
+        if((user === "Admin" && pass === "Admin1234")) {
+            document.getElementById("login-overlay").style.display = "none";
+            logged_in = true;
+        }
+        else
+        {
+            error.textContent = "Invalid username or password.";
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if(e.key === "Enter")
+        {
+            document.getElementById("login-button").click();
+        }
+    });
 </script>
 </body>
 </html>
