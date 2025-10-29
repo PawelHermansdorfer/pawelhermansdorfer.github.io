@@ -436,31 +436,56 @@
 
         ////////////////////////////////////////
         // Dates
+        let show_all = true;
+        let show_up_to_date = false;
+        let display_date = dates[0];
+
+        function
+        refresh_date_filter()
+        {
+            if(show_all)
+            {
+                dates.forEach(date => { date_is_active[date] = true; });
+            }
+            else
+            {
+                if(show_up_to_date)
+                {
+                    dates.forEach(date => { date_is_active[date] = (date<=display_date); });
+                }
+                else
+                {
+                    dates.forEach(date => { date_is_active[date] = (date==display_date); });
+                }
+            }
+            update_markers(places, category_is_active, date_is_active);
+        }
+
+
         const dates_folder = tabs.pages[0].addFolder({
             title: 'Dates',
             expanded: true,
         });
 
         const date_slider_params = {
-            show_all_dates: true,
+            show_all_dates: show_all,
+            show_to_date: show_up_to_date,
             date_idx: 0,
         };
         let date_slider;
+        let checkbox_to_date;
 
         let checkbox_all_dates = dates_folder.addInput(date_slider_params, 'show_all_dates', {label: 'Show all dates'});
         checkbox_all_dates.on('change', (ev) => {
-            date_slider.disabled = ev.value;
-            if(ev.value)
-            {
-                dates.forEach(date => { date_is_active[date] = true; });
-                update_markers(places, category_is_active, date_is_active);
-            }
-            else
-            {
-                dates.forEach(date => { date_is_active[date] = false; });
-                date_is_active[dates[date_slider_params.date_idx]] = true;
-                update_markers(places, category_is_active, date_is_active);
-            }
+            date_slider.disabled      = ev.value;
+            checkbox_to_date.disabled = ev.value;
+            show_all = ev.value;
+            refresh_date_filter();
+        });
+
+        checkbox_to_date = dates_folder.addInput(date_slider_params, 'show_to_date', {label: 'Show up to date', disabled: true}).on('change', (ev) => {
+            show_up_to_date = ev.value;
+            refresh_date_filter();
         });
 
         date_slider = dates_folder.addInput(date_slider_params, 'date_idx', {
@@ -470,12 +495,9 @@
             label: 'Display year',
             format: (v) => `${dates[v]}`,
             disabled: true,
-        })
-
-        date_slider.on('change', (ev) => {
-            dates.forEach(date => { date_is_active[date] = false; });
-            date_is_active[dates[ev.value]] = true;
-            update_markers(places, category_is_active, date_is_active);
+        }).on('change', (ev) => {
+            display_date = dates[ev.value];
+            refresh_date_filter();
         });
 
         ////////////////////////////////////////
