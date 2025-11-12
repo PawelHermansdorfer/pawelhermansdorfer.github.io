@@ -219,7 +219,10 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
             places.forEach(place => {
                 if(place.category == category)
                 {
-                    place.marker_element.textContent = v.value;
+                    const img = place.marker_element.querySelector('img');
+                    if (img) {
+                        img.src = v.value;
+                    }
                 }
             });
         });
@@ -251,13 +254,20 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
     tabs.pages[2].addButton({
         title: 'Set default',
     }).on('click', () => {
+        // Przywracamy domyślne ścieżki ikon
         categories.forEach(category => {
             icons_params[category] = default_icon_from_category(category);
         });
 
+        // Dla każdego markera ustawiamy img.src na domyślną ikonę
         places.forEach(place => {
-            place.marker_element.textContent = default_icon_from_category(place.category);
-        });
+            const img = place.marker_element.querySelector('img');
+            if (img) {
+                img.src = default_icon_from_category(place.category);
+                img.style.width = icon_size + 'px';  // zachowujemy rozmiar
+                img.style.height = icon_size + 'px';
+            }
+        })
 
         redraw_markers = false;
         pane.refresh();
@@ -275,8 +285,13 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
         label: 'Icon size',
     });
     icon_size_slider.on('change', (ev) => {
+        icon_size = ev.value;
         places.forEach(place => {
-            place.marker_element.style.fontSize = ev.value.toString() + 'px';
+            const img = place.marker_element.querySelector('img');
+            if (img) {
+                img.style.width = ev.value + 'px';
+                img.style.height = ev.value + 'px';
+            }
         });
     });
 

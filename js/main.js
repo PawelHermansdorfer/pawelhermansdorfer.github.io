@@ -4,9 +4,9 @@ let init_zoom = 6;
 let min_zoom = 0;
 let max_zoom = 17;
 
-let icon_size = 18;
-let min_icon_size = 1;
-let max_icon_size = 48;
+let icon_size = 35;
+let min_icon_size = 10;
+let max_icon_size = 90;
 
 let map = new maplibregl.Map({
     container: 'map',

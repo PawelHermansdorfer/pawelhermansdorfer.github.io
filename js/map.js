@@ -102,8 +102,16 @@ function buildDescription(row, columns) {
 
 function createMarker(x, y, category, desc) {
     const treeMarker = document.createElement('div');
-    treeMarker.textContent = default_icon_from_category(category);
-    treeMarker.style.fontSize = icon_size + 'px';
+
+    const img = document.createElement('img');
+    img.src = default_icon_from_category(category);
+    img.style.width = icon_size + 'px';
+    img.style.height = icon_size + 'px';
+    img.style.objectFit = 'contain';
+    img.style.pointerEvents = 'none';
+
+    treeMarker.appendChild(img);
+
     return new maplibregl.Marker({ element: treeMarker })
         .setLngLat([x, y])
         .setPopup(new maplibregl.Popup().setHTML(desc))
