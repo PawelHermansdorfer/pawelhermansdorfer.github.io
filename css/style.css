@@ -117,3 +117,11 @@ footer a:hover {
     font-size: 14px;
     margin-top: 10px;
 }
+
+/* Tweakpane */
+.tp-rotv {
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 300px;
+    transition: width 0.3s ease;
+}
