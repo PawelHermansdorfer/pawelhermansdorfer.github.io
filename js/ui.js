@@ -211,8 +211,7 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
                 update_markers(places, category_is_active, date_is_active);
             }
         });
-
-        // Icons select
+        
         icons_params[category] = default_icon_from_category(category);
         let icon_select = tabs.pages[2].addInput(icons_params, category, {options: icons_options});
         icon_select.on('change', (v) => {
@@ -254,17 +253,15 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
     tabs.pages[2].addButton({
         title: 'Set default',
     }).on('click', () => {
-        // Przywracamy domyślne ścieżki ikon
         categories.forEach(category => {
             icons_params[category] = default_icon_from_category(category);
         });
 
-        // Dla każdego markera ustawiamy img.src na domyślną ikonę
         places.forEach(place => {
             const img = place.marker_element.querySelector('img');
             if (img) {
                 img.src = default_icon_from_category(place.category);
-                img.style.width = icon_size + 'px';  // zachowujemy rozmiar
+                img.style.width = icon_size + 'px';
                 img.style.height = icon_size + 'px';
             }
         })

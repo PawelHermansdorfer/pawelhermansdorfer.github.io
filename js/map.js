@@ -12,14 +12,14 @@ function update_markers(places, category_is_active, date_is_active) {
 function load_map_data(date_column, category_column, coords_column, columns, rows) {
     const firstValid = findFirstValidCoordinate(rows, coords_column);
     if (!firstValid) {
-        showError('Nie znaleziono poprawnych współrzędnych w kolumnie: ' + coords_column);
+        showError('No valid coordinates found in column: ' + coords_column);
         return;
     }
 
     const { places, categories, dates, bounds } = preparePlaces(rows, coords_column, category_column, date_column, columns);
 
     if (places.length === 0) {
-        showError('Brak poprawnych punktów do wyświetlenia.');
+        showError('No valid points to display.');
         return;
     }
 

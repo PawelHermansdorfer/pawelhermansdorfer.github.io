@@ -18,7 +18,6 @@ function detectCoordColumn(column_names, rows) {
     for (let i = 0; i < column_names.length; i++) {
         const col = column_names[i];
         let score = 0;
-        // check up to first 50 rows (or fewer)
         const sample = rows.slice(0, 50);
         for (let r of sample) {
             const v = r[col];
@@ -29,7 +28,6 @@ function detectCoordColumn(column_names, rows) {
             bestIdx = i;
         }
     }
-    // require at least one positive match
     return bestScore > 0 ? bestIdx : -1;
 }
 
@@ -55,7 +53,6 @@ function make_read_excel_panel(title, column_names, rows, coords_column_idx) {
         }
     }
 
-    // params dla panelu
     let params = {
         coords_column: coords_column_idx !== -1 ? column_names[coords_column_idx] : column_names[0],
         date_column: column_names[possible_date_column_idx],
@@ -66,7 +63,6 @@ function make_read_excel_panel(title, column_names, rows, coords_column_idx) {
     let date_column = params.date_column;
     let category_column = params.category_column;
 
-    // label - value for combo box
     let options = {};
     column_names.forEach(name => {
         options[name] = name;
@@ -74,18 +70,16 @@ function make_read_excel_panel(title, column_names, rows, coords_column_idx) {
 
     let pane = new Tweakpane.Pane({ title: title});
 
-    // jeśli nie wykryto - pozwól użytkownikowi wybrać kolumnę koordynatów
     if (coords_column_idx === -1) {
         pane.addInput(params, 'coords_column', { options, label: 'Coordinates column' })
             .on('change', (ev) => {
                 coords_column = ev.value;
             });
     } else {
-        // pokaż kilka informacji i pozwól ewentualnie zmienić (opcjonalnie)
         pane.addInput(params, 'coords_column', {
             options,
             label: 'Coordinates column (detected)',
-            disabled: true,
+            disabled: false,
         });
     }
 
@@ -99,12 +93,10 @@ function make_read_excel_panel(title, column_names, rows, coords_column_idx) {
             category_column = ev.value;
         });
 
-    // Load file button
     pane.addButton({ title: 'Load file', })
         .on('click', () => {
             overlay.remove();
             pane.dispose();
-            // wywołaj ładowanie z wybraną kolumną koordynatów
             load_map_data(date_column, category_column, coords_column, column_names, rows);
         });
 

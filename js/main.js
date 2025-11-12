@@ -4,10 +4,6 @@ let init_zoom = 6;
 let min_zoom = 0;
 let max_zoom = 17;
 
-let icon_size = 35;
-let min_icon_size = 10;
-let max_icon_size = 90;
-
 let map = new maplibregl.Map({
     container: 'map',
     style: 'https://tiles.openfreemap.org/styles/bright',
@@ -47,7 +43,7 @@ document.body.addEventListener('drop', (e_) => {
     let file_name = file.name;
 
     if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
-        showError('Błąd: obsługiwane są tylko pliki Excel (.xlsx, .xls).');
+        showError('Error: Only Excel files (.xlsx,.xls) are supported.');
         return;
     }
 
@@ -64,11 +60,11 @@ document.body.addEventListener('drop', (e_) => {
             const rows = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: "" });
 
             if (!column_names || column_names.length === 0) {
-                showError('Plik nie zawiera nagłówków kolumn.');
+                showError('The file does not contain column headers.');
                 return;
             }
             if (!rows || rows.length === 0) {
-                showError('Plik nie zawiera wierszy danych.');
+                showError('The file does not contain any data rows.');
                 return;
             }
 
@@ -78,7 +74,7 @@ document.body.addEventListener('drop', (e_) => {
 
         } catch (err) {
             console.error(err);
-            showError('Błąd podczas odczytu pliku Excel: ' + err.message);
+            showError('Error reading Excel file: ' + err.message);
         }
     };
     reader.readAsArrayBuffer(file);

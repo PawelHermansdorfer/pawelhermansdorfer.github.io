@@ -1,3 +1,8 @@
+let icon_size = 35;
+let min_icon_size = 10;
+let max_icon_size = 90;
+
+
 let default_icon = "assets/icon.png";
 let buildin_icon = "assets/house.png";
 let village_icon = "assets/village.png";
