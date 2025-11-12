@@ -34,7 +34,7 @@ function load_map_data(date_column, category_column, coords_column, columns, row
     setupDescriptionUI(pane, tabs,  columns, places);
     setupDateUI(pane, tabs, dates, places, category_is_active, date_is_active);
     setupFilterUI(pane, tabs, columns, places, category_is_active, date_is_active);
-    setupCategoryAndIconUI(pane, tabs, categories, places, category_is_active, date_is_active);
+    setupCategoryAndIconUI(pane, tabs, categories, places, category_is_active, date_is_active, bounds);
 }
 
 // ==================== LOGIKA DANYCH ====================

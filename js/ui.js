@@ -187,7 +187,7 @@ function setupFilterUI(pane, tabs, columns, places, category_is_active, date_is_
 
 }
 
-function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_active, date_is_active) {
+function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_active, date_is_active, bounds) {
     let button_center = tabs.pages[0].addButton({
         title: 'Center',
     });
