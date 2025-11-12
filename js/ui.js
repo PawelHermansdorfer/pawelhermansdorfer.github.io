@@ -1,25 +1,14 @@
 function showError(message) {
     const box = document.createElement('div');
     box.textContent = message;
-    box.style.position = 'fixed';
-    box.style.top = '10px';
-    box.style.right = '10px';
-    box.style.backgroundColor = 'rgba(200,0,0,0.9)';
-    box.style.color = 'white';
-    box.style.padding = '10px 14px';
-    box.style.borderRadius = '6px';
-    box.style.zIndex = 50000;
+    box.classList.add('error-notification');
+
     document.body.appendChild(box);
     setTimeout(() => box.remove(), 6000);
 }
 
 function setupUI() {
     const pane = new Tweakpane.Pane({ title: 'Settings' });
-    pane.element.style.width = '300px';
-    pane.element.style.position = 'fixed';
-    pane.element.style.top = '10px';
-    pane.element.style.right = '10px';
-    pane.element.style.zIndex = '1000';
 
     const tabs = pane.addTab({
         pages: [
@@ -292,3 +281,4 @@ function setupCategoryAndIconUI(pane, tabs, categories, places, category_is_acti
     });
 
 }
+

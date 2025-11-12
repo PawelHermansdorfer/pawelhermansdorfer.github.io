@@ -63,6 +63,25 @@ footer a:hover {
     pointer-events: auto;
 }
 
+.error-notification {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 50000;
+
+    background-color: rgba(200, 0, 0, 0.9);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+
+
+    font-family: sans-serif;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
 /* === LOGIN OVERLAY === */
 #login-overlay {
     position: fixed;
@@ -119,9 +138,21 @@ footer a:hover {
 }
 
 /* Tweakpane */
+.tp-rotv{
+    width: 300px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+
+    z-index: 1000;
+}
+
+
+
+
+/* Scroll bar */
 .tp-rotv {
     max-height: 90vh;
     overflow-y: auto;
-    width: 300px;
     transition: width 0.3s ease;
 }
